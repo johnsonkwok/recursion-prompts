@@ -500,12 +500,51 @@ var minimizeZeroes = function(array) {
 // alternateSign([2,7,8,3,1,4]) // [2,-7,8,-3,1,-4]
 // alternateSign([-2,-7,8,3,-1,4]) // [2,-7,8,-3,1,-4]
 var alternateSign = function(array) {
+  if (array.length === 0) {
+    return [];
+  } else {
+    const firstItem = (array[0] >= 0) ? array[0] : -array[0];
+    const secItem = (array[1] < 0) ? array[1] : -array[1];
+    return [].concat(firstItem, (secItem || []), alternateSign(array.slice(2)));
+  }
 };
 
 // 36. Given a string, return a string with digits converted to their word equivalent.
 // Assume all numbers are single digits (less than 10).
 // numToText("I have 5 dogs and 6 ponies"); // "I have five dogs and six ponies"
 var numToText = function(str) {
+  let firstItem = Number(str[0]);
+  if (str[0] !== ' ' && Number.isInteger(firstItem)) {
+    if (firstItem === 0) {
+      firstItem = 'zero';
+    } else if (firstItem === 1) {
+      firstItem = 'one';
+    } else if (firstItem === 2) {
+      firstItem = 'two';
+    } else if (firstItem === 3) {
+      firstItem = 'three';
+    } else if (firstItem === 4) {
+      firstItem = 'four';
+    } else if (firstItem === 5) {
+      firstItem = 'five';
+    } else if (firstItem === 6) {
+      firstItem = 'six';
+    } else if (firstItem === 7) {
+      firstItem = 'seven';
+    } else if (firstItem === 8) {
+      firstItem = 'eight';
+    } else if (firstItem === 9) {
+      firstItem = 'nine'; 
+    }
+  } else {
+    firstItem = str[0];
+  }
+
+  if (str.length === 0) {
+    return '';
+  } else {
+    return ''.concat(firstItem, numToText(str.slice(1)));
+  }
 };
 
 
