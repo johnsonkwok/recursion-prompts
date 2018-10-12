@@ -514,28 +514,9 @@ var alternateSign = function(array) {
 // numToText("I have 5 dogs and 6 ponies"); // "I have five dogs and six ponies"
 var numToText = function(str) {
   let firstItem = Number(str[0]);
+  const numbersArr = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
   if (str[0] !== ' ' && Number.isInteger(firstItem)) {
-    if (firstItem === 0) {
-      firstItem = 'zero';
-    } else if (firstItem === 1) {
-      firstItem = 'one';
-    } else if (firstItem === 2) {
-      firstItem = 'two';
-    } else if (firstItem === 3) {
-      firstItem = 'three';
-    } else if (firstItem === 4) {
-      firstItem = 'four';
-    } else if (firstItem === 5) {
-      firstItem = 'five';
-    } else if (firstItem === 6) {
-      firstItem = 'six';
-    } else if (firstItem === 7) {
-      firstItem = 'seven';
-    } else if (firstItem === 8) {
-      firstItem = 'eight';
-    } else if (firstItem === 9) {
-      firstItem = 'nine'; 
-    }
+    firstItem = numbersArr[firstItem];
   } else {
     firstItem = str[0];
   }
@@ -551,14 +532,40 @@ var numToText = function(str) {
 // *** EXTRA CREDIT ***
 
 // 37. Return the number of times a tag occurs in the DOM.
-var tagCount = function(tag, node) {
+// Wasn't able to solve, needed help with solution from github user TwoFistedJustice
+var tagCount = function(tag, node = window.document) {
+  tag = tag.toUpperCase();
+  if (node.children.length === 0) {
+    return 0;
+  } else {
+    let count = 0;
+    for (let child of node.children) {
+      if (child.tagName === tag) {      // can also use "child.nodeName" here
+        count++
+      }
+      count += tagCount(tag, child);
+    }
+    return count;
+  }
 };
 
 // 38. Write a function for binary search.
 // var array = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 // binarySearch(array, 5) // 5
 // https://www.khanacademy.org/computing/computer-science/algorithms/binary-search/a/binary-search
-var binarySearch = function(array, target, min, max) {
+var binarySearch = function(array, target, min = 0, max = array.length - 1) {
+  let mid = Math.floor((min + max) / 2);
+  if (array[mid] === target) {
+    return mid;
+  } else if (min >= max) {
+    return (array[mid] === target) ? mid : null;
+  } else {
+    if (array[mid] > target) {
+      return binarySearch(array, target, min, (mid - 1));
+    } else {
+      return binarySearch(array, target, (mid + 1), max);
+    }
+  }
 };
 
 // 39. Write a merge sort function.
