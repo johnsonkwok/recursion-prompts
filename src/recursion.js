@@ -572,6 +572,14 @@ var binarySearch = function(array, target, min = 0, max = array.length - 1) {
 // mergeSort([34,7,23,32,5,62]) // [5,7,23,32,34,62]
 // https://www.khanacademy.org/computing/computer-science/algorithms/merge-sort/a/divide-and-conquer-algorithms
 var mergeSort = function(array) {
+  // let min = 0;
+  // let max = array.length - 1;
+  // let mid = Math.floor((min + max) / 2);
+  // if (array.length <= 1) {
+  //   return array;
+  // } else {
+
+  // }
 };
 
 // 40. Deeply clone objects and arrays.
@@ -580,4 +588,35 @@ var mergeSort = function(array) {
 // console.log(obj2); // {a:1,b:{bb:{bbb:2}},c:3}
 // obj1 === obj2 // false
 var clone = function(input) {
+  if (typeof input !== 'object') {
+    return input;
+  } else if (Array.isArray(input)) {
+    if (input.length === 0) {
+      return [];
+    } else {
+      let firstItem = input[0];
+      if (Array.isArray(firstItem)) {
+        firstItem = clone(firstItem)
+      } else if (typeof firstItem === 'object') {
+        const holderObj = {};
+        for (let key in firstItem) {
+          holderObj[key] = clone(firstItem[key]);
+        }
+        firstItem = holderObj;
+      }
+      
+      return [].concat([firstItem], clone(input.slice(1)));
+    }
+  } else {      // (if input is an object)
+    if (Object.keys(input).length === 0) {
+      return {};
+    } else {
+      const clonedObj = {};
+      for (let key in input) {
+        clonedObj[key] = clone(input[key]);
+      }
+
+      return clonedObj;
+    }
+  }
 };
